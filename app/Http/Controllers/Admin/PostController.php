@@ -120,7 +120,18 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::find($id);
+
+        if ($post)
+        {
+            return view('admin.posts.show', compact('post'));
+        }
+        else
+        {
+            return redirect()->route("admin.posts.index")->with([
+                "warning" => "Cet article n'existe pas."
+            ]);
+        }
     }
 
     /**
@@ -131,18 +142,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::where("id", $id)->first();
-
-        if (!$post) 
-        {
-            return redirect()->route('admin.posts.index')->with([
-                "warning" => "Cet article n'existe pas."
-            ]);
-        }
-        else 
-        {
-            return view('admin.posts.edit', compact('post'));
-        }
+        // 
     }
 
     /**
@@ -154,65 +154,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $post = Post::find($id);
-
-        $validator = Validator::make($request->all(), 
-        [
-            "title" => ["required", "string", "max:255"],
-            "category_id" => ["required", "integer", "exists:categories,id"],
-                // dans la table 'categories', vérifie si l'id correspond à ce qui est entré par l'user
-            "image" => ["required", "image", "dimensions:min_width=100,min_height=100"],
-                // pour un post, il faut obligatoirement une image
-                // mais cette donnée de BDD est nullable car si elle était requise, 
-                // il faudrait rentrer à nouveau une image à chaque édition de l'article concerné
-            "content" => ["required", "string"]
-        ],
-        [
-            "title.required" => "Ce champ est obligatoire.",
-            "title.string" => "Veuillez entrer un titre valide.",
-            "title.max" => "Veuillez entrer un titre de 255 catactères maximum.",
-            "category_id.required" => "Ce champ est obligatoire.",
-            "category_id.integer" => "Ce champ doit être un nombre entier.",
-            "category_id.exists" => "Cette catégorie n'existe pas.",
-            "image.required" => "Ce champ est obligatoire.",
-            "image.image" => "Ce type de fichier n'est pas supporté.",
-            "image.dimensions" => "Veuillez insérer une image d'au moins 100x100px",
-            "content.required" => "Ce champ est obligatoire.",
-            "content.string" => "Format invalide."
-        ]);
-
-        // redirection en cas d'erreur
-        if($validator->fails()) 
-        {
-            return redirect()->back()->withErrors($validator)->withInput();
-                // le 'withInput()' permet de récupérer les données pour le champ 'old()'
-        }
-
-        // traitement de l'image
-        $image = $request->image;
-            // on assigne à l'image (pas le chemin) une variable
-
-        // création d'un nom complet pour l'image pour éviter les doublons
-        $image_complete_name = time() . "_" . rand(1, 999999) . "_" . $image->getClientOriginalName();
-            // time permet de compter le nombre de secondes écoulées de puis le 01/01/1970
-            // rand() génère un nombre aléatoire entre les deux valeurs données
-            // getClientOriginalName() récupère le nom de l'image tel qu'il est enregistré chez l'user
-
-        // déplacement de l'image dans le dossier indiqué en concaténant avec $image_complete_name
-        $image->move('uploads/posts/images/', $image_complete_name);
-            // move() pointe sur 'public' par défaut
-
-        // modification des données
-        $post->update([
-            "title" => $request->title,
-            "category_id" => $request->category_id,
-            "image" => $request->image,
-            "content" => $request->content
-        ]);
-
-        return redirect()->route('admin.posts.index')->with([
-            "success" => "L'article a été modifié avec succès."
-        ]);
+        // 
     }
 
     /**
@@ -224,5 +166,26 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    // méthode pour activer la publication en toggle
+    public function published(Request $request, $id)
+    {
+        $post = Post::find($id);
+
+        // le toggle renvoie soit 'on', soit 'null'. Du coup on test 
+        // s'il y a quelque chose, alors c'est forcément 'on'
+        if ($request->has('published_input'))
+        {
+            update([
+                "published" => true,
+                "published_at" => now()
+            ]);
+        }
+        // else
+        // {
+        //     // si le toggle renvoie null, alors cela suppose que l'user veut dé-publier son article
+        //     $post->
+        // }
     }
 }

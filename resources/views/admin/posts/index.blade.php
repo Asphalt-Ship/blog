@@ -35,7 +35,7 @@
                 <th>Image</th>
                 <th>Catégorie</th>
                 <th>Contenu</th>
-                <th>Publié ?</th>
+                <th>Publication</th>
                 <th>Paramètres</th>
             </thead>
             <tbody>
@@ -47,11 +47,22 @@
                             {{-- on fait appel à la fonction du modèle, et on lui passe le nom --}}
                             {{-- ça nous renvoie le nom de la catégorie au lieu de l'id --}}
                         <td>
-                            <a href="" class="btn btn-sm btn-info text-white">Lire</a>
+                            <a href="{{ route('admin.posts.show', $post->id) }}" class="btn btn-sm btn-info text-white">Lire</a>
                         </td>
-                        <td>{{ $post->published }}</td>
                         <td>
-                            <a href="{{ route('admin.posts.edit', $post->id) }}" class="btn btn-sm text-white btn-info">Modifier</a>
+                            {{ $post->published == 1 ? 'Publié' : 'Non publié'}}
+                            <form action="{{ route('admin.posts.published', $post->id) }}" method="POST">
+                                @csrf
+                                @method('put')
+                                <div class="custom-control custom-switch my-2">
+                                    <input type="checkbox" class="custom-control-input" name="published_input" id="switch-{{ $post->id }}" onchange="this.form.submit()" />
+                                    <label class="custom-control-label" for="switch-{{ $post->id }}"></label>
+                                        {{-- l'id ne change rien à l'affichage, mais permet de différencier en back-end --}}
+                                </div> 
+                            </form>                             
+                        </td>
+                        <td>
+                            <a href="" class="btn btn-sm text-white btn-info">Modifier</a>
                             <form action="" method="POST" class="d-inline">
                                 @csrf
                                 <input type="submit" value="Corbeille" class="btn btn-sm btn-danger" onclick="return confirm('Déplacer cet article dans la corbeille ?')"/>
