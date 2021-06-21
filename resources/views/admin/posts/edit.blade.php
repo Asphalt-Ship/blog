@@ -6,6 +6,8 @@ Modifier : {{ $post->title }}
 
 @section('mycontent')
 
+    {{-- BUG --}}
+
     <div class="container my-5">
         <form action="{{ route('admin.posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
                 {{-- cet 'enctype' est nécessaire pour le traitement des inputs de type 'file' --}}
