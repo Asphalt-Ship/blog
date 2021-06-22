@@ -168,7 +168,7 @@ class PostController extends Controller
         //
     }
 
-    // méthode pour activer la publication en toggle
+    // méthode pour activer la publication au toggle
     public function published(Request $request, $id)
     {
         $post = Post::find($id);
