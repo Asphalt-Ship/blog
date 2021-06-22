@@ -7,9 +7,10 @@
 @section('mycontent')
 
     <div class="container my-5">
-        <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
                 {{-- cet 'enctype' est nécessaire pour le traitement des inputs de type 'file' --}}
             @csrf
+            @method('patch')
             <div class="form-group">
                 <label for="title">Titre</label>
                 <input type="text" name="title" id="title" class="form-control" value="{{ $post->title }}"/>

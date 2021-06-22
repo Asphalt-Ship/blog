@@ -199,7 +199,9 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return redirect()->route('admin.posts.index')->with([
+            "success" => "la route d'update est valide."
+        ]);
     }
 
     /**
