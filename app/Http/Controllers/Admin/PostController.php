@@ -146,8 +146,7 @@ class PostController extends Controller
         {
             $post->update([
                 "published" => true,
-                "published_at" => now(),
-                "deleted_at" => null
+                "published_at" => now()
             ]);
 
             return redirect()->back()->with([
@@ -159,8 +158,7 @@ class PostController extends Controller
             // si le toggle renvoie null, alors cela suppose que l'user veut dé-publier son article
             $post->update([
                 "published" => false,
-                "published_at" => null,
-                "deleted_at" => now()
+                "published_at" => null
             ]);
 
             return redirect()->back()->with([
