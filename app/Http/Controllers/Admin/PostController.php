@@ -84,17 +84,18 @@ class PostController extends Controller
                 // le 'withInput()' permet de récupérer les données pour le champ 'old()'
         }
 
-        // traitement de l'image
+        // récupération de l'image depuis les données du formulaire
+        // toutes les données de form sont récupérées dans la classe Laravel/Symfony '$request'
         $image = $request->image;
             // on assigne à l'image (pas le chemin) une variable
 
         // création d'un nom complet pour l'image pour éviter les doublons
         $image_complete_name = time() . "_" . rand(1, 999999) . "_" . $image->getClientOriginalName();
-            // time permet de compter le nombre de secondes écoulées de puis le 01/01/1970
+            // time() permet de compter le nombre de secondes écoulées de puis le 01/01/1970
             // rand() génère un nombre aléatoire entre les deux valeurs données
             // getClientOriginalName() récupère le nom de l'image tel qu'il est enregistré chez l'user
 
-        // déplacement de l'image dans le dossier indiqué en concaténant avec $image_complete_name
+        // déplacement de l'image (dans le dossier indiqué) en lui pour nom $image_complete_name
         $image->move('uploads/posts/images/', $image_complete_name);
             // move() pointe sur 'public' par défaut
 
@@ -134,6 +135,40 @@ class PostController extends Controller
         }
     }
 
+    // méthode pour activer la publication au toggle
+    public function published(Request $request, $id)
+    {
+        $post = Post::find($id);
+
+        // le toggle renvoie une value soit 'on', soit 'null'. Du coup on teste : 
+        // s'il y a une valeur pour 'published_input', alors c'est forcément 'on'
+        if ($request->has('published_input'))
+        {
+            $post->update([
+                "published" => true,
+                "published_at" => now(),
+                "deleted_at" => null
+            ]);
+
+            return redirect()->back()->with([
+                "success" => "L'article a été publié avec succès."
+            ]);
+        }
+        else
+        {
+            // si le toggle renvoie null, alors cela suppose que l'user veut dé-publier son article
+            $post->update([
+                "published" => false,
+                "published_at" => null,
+                "deleted_at" => now()
+            ]);
+
+            return redirect()->back()->with([
+                "success" => "L'article a été retiré avec succès."
+            ]);
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -166,26 +201,5 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    // méthode pour activer la publication au toggle
-    public function published(Request $request, $id)
-    {
-        $post = Post::find($id);
-
-        // le toggle renvoie soit 'on', soit 'null'. Du coup on test 
-        // s'il y a quelque chose, alors c'est forcément 'on'
-        if ($request->has('published_input'))
-        {
-            update([
-                "published" => true,
-                "published_at" => now()
-            ]);
-        }
-        // else
-        // {
-        //     // si le toggle renvoie null, alors cela suppose que l'user veut dé-publier son article
-        //     $post->
-        // }
     }
 }
