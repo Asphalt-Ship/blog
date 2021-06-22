@@ -152,6 +152,9 @@ class CategoryController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        // suppression du slug actuel pour qu'un nouveau puisse être généré
+        $category->slug = null;
+
         $category->update([
             "name" => $request->name
         ]);

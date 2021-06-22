@@ -78,8 +78,9 @@
                         </td>
                         <td>
                             <a href="{{ route('admin.posts.edit', $post->id) }}" class="btn btn-sm text-white btn-info">Modifier</a>
-                            <form action="" method="POST" class="d-inline">
+                            <form action="{{ route('admin.posts.trashed', $post->id) }}" method="POST" class="d-inline">
                                 @csrf
+                                @method('delete')
                                 <input type="submit" value="Corbeille" class="btn btn-sm btn-danger" onclick="return confirm('Déplacer cet article dans la corbeille ?')"/>
                             </form>
                         </td>

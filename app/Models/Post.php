@@ -5,12 +5,16 @@ namespace App\Models;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
     use HasFactory;
     use Sluggable;
+    use SoftDeletes;
+        // on ajoute cette classe manuellement cette classe
+        // pour pouvoir garantir que la corbeille ne soit pas un delete
 
     protected $guarded = [];
         // on dit au modèle de laisser passer les données

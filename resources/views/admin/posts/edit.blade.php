@@ -29,12 +29,18 @@
                 </select>
                 <div class="text-danger">{{ $errors->first("category_id", ":message") }}</div>
             </div>
-            <div class="form-group">
-                <label for="image">Image</label>
-                <input type="file" name="image" id="image" class="form-control-file"/>
-                    {{-- impossible de retourner une value old() pour une image --}}
-                    {{-- du coup on a importé ça dans le controller --}}
-                <div class="text-danger">{{ $errors->first("image", ":message") }}</div>
+            <div class="d-flex justify-content-around align-items-center my-3">
+                <div>
+                    <p>Image actuelle</p>
+                    <img src="{{ asset($post->image) }}" width="120" height="120">
+                </div>
+                <div>
+                    <label for="image">Nouvelle image</label>
+                    <input type="file" name="image" id="image" class="form-control-file"/>
+                        {{-- impossible de retourner une value old() pour une image --}}
+                        {{-- du coup on a importé ça dans le controller --}}
+                    <div class="text-danger">{{ $errors->first("image", ":message") }}</div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="content">Contenu</label>

@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
@@ -199,8 +200,89 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // mise en place des règles de validation
+        $validator = Validator::make($request->all(), 
+        [
+            "title" => ["required", "string", "max:255"],
+            "category_id" => ["required", "integer", "exists:categories,id"],
+            "image" => ["image", "dimensions:min_width=100,min_height=100"],
+            "content" => ["required", "string"]
+        ],
+        [
+            "title.required" => "Ce champ est obligatoire.",
+            "title.string" => "Veuillez entrer un titre valide.",
+            "title.max" => "Veuillez entrer un titre de 255 catactères maximum.",
+            "category_id.required" => "Ce champ est obligatoire.",
+            "category_id.integer" => "Ce champ doit être un nombre entier.",
+            "category_id.exists" => "Cette catégorie n'existe pas.",
+            "image.image" => "Ce type de fichier n'est pas supporté.",
+            "image.dimensions" => "Veuillez insérer une image d'au moins 100x100px",
+            "content.required" => "Ce champ est obligatoire.",
+            "content.string" => "Format invalide."
+        ]);
+
+        // redirection en cas d'erreur
+        if($validator->fails()) 
+        {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // récupération des données de $post
+        $post = Post::find($id);
+
+        // suppression du slug actuel pour qu'un nouveau puisse être généré
+        $post->slug = null;
+
+        if ($request->image)
+        {
+            // traitement de l'image
+            $image = $request->image;
+            $image_complete_name = time() . "_" . rand(1, 999999) . "_" . $image->getClientOriginalName();
+
+            // suppression de l'ancienne image dans $post
+            $path = parse_url($post->image);
+                // on récupère le path de l'image
+            File::delete(public_path($path['path']));
+                // on delete le path
+
+            // déplacement de la nouvelle image à son emplacement
+            $image->move('uploads/posts/images/', $image_complete_name);
+
+            // stockage des données
+            $post->update([
+                "title" => $request->title,
+                "category_id" => $request->category_id,
+                "image" => "uploads/posts/images/" . $image_complete_name,
+                "content" => $request->content
+            ]);
+        }
+        else 
+        {
+            $post->update([
+                "title" => $request->title,
+                "category_id" => $request->category_id,
+                "content" => $request->content
+            ]);
+        }
+
+        // redirection
+        return redirect()->route("admin.posts.index")->with([
+            "success" => "L'article a été modifié avec succès."
+        ]);
+    }
+
+    // fonction de mise à la corbeille
+    public function trashed($id)
+    {
+        $post = Post::find($id);
+
+        $post->delete();
+            // grâce à softDeletes(), l'article n'est pas purement supprimé
+            // il est déplacé dans la 'corbeille'
+            // il faut activer le softDeletes dans le modèle !
+
         return redirect()->route('admin.posts.index')->with([
-            "success" => "la route d'update est valide."
+            "warning" => "L'article a été déplacé dans la corbeille."
         ]);
     }
 

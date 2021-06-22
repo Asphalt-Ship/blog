@@ -62,3 +62,5 @@ Route::get('/admin/posts/edit/{id}', [App\Http\Controllers\Admin\PostController:
 
 Route::patch('/admin/posts/update/{id}', [App\Http\Controllers\Admin\PostController::class, 'update'])->name('admin.posts.update');
 
+Route::delete('/admin/posts/trashed/{id}', [App\Http\Controllers\Admin\PostController::class, 'trashed'])->name('admin.posts.trashed');
+
