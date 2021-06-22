@@ -50,12 +50,26 @@
                             <a href="{{ route('admin.posts.show', $post->id) }}" class="btn btn-sm btn-info text-white">Lire</a>
                         </td>
                         <td>
-                            {{ $post->published == 1 ? 'Publié' : 'Non publié'}}
+                            @if ($post->published == 1)
+                                <div>
+                                    Publié
+                                </div>
+                                <div>
+                                    <small>{{ $post->published_at }}</small>
+                                </div>
+                            @else
+                                <div>
+                                    Non publié
+                                </div>
+                            @endif
+                            {{-- {{ $post->published == 1 ? 'Publié' : 'Non publié'}} --}}
                             <form action="{{ route('admin.posts.published', $post->id) }}" method="POST">
                                 @csrf
                                 @method('put')
                                 <div class="custom-control custom-switch my-2">
-                                    <input type="checkbox" class="custom-control-input" name="published_input" id="switch-{{ $post->id }}" onchange="this.form.submit()" />
+                                    <input type="checkbox" class="custom-control-input" name="published_input" id="switch-{{ $post->id }}" onchange="this.form.submit()" {{ $post->published == 1 ? 'checked' : '' }} />
+                                        {{-- onchange est un attribut JS --}}
+                                        {{-- on utilise un ternaire pour dire au toggle d'être checked ou non --}}
                                     <label class="custom-control-label" for="switch-{{ $post->id }}"></label>
                                         {{-- l'id ne change rien à l'affichage, mais permet de différencier en back-end --}}
                                 </div> 

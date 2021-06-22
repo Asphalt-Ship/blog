@@ -162,7 +162,7 @@ class PostController extends Controller
             ]);
 
             return redirect()->back()->with([
-                "success" => "L'article a été retiré avec succès."
+                "warning" => "L'article a été retiré avec succès."
             ]);
         }
     }
