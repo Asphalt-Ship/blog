@@ -156,7 +156,6 @@ class CategoryController extends Controller
             "name" => $request->name
         ]);
 
-
         return redirect()->route('admin.categories.index')->with([
             "success" => "La catégorie a été modifiée avec succès."
         ]);

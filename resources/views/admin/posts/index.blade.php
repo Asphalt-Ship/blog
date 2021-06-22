@@ -14,13 +14,13 @@
     @endif
 
     @if (session('warning'))
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        {!! session('warning') !!}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>      
-@endif
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {!! session('warning') !!}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>      
+    @endif
 
     <div class="d-flex justify-content-end align-items-center my-5">
         <a href="{{ route('admin.posts.create') }}" class="btn btn-primary">Nouvel article</a>
@@ -55,7 +55,8 @@
                                     Publié
                                 </div>
                                 <div>
-                                    <small>{{ $post->published_at }}</small>
+                                    <small>Le {{ $post->published_at->format("d/m/Y à H:i:s") }}</small>
+                                    {{-- pour permettre ce format de date, on passe par le modèle --}}
                                 </div>
                             @else
                                 <div>
@@ -76,7 +77,7 @@
                             </form>                             
                         </td>
                         <td>
-                            <a href="" class="btn btn-sm text-white btn-info">Modifier</a>
+                            <a href="{{ route('admin.posts.edit', $post->id) }}" class="btn btn-sm text-white btn-info">Modifier</a>
                             <form action="" method="POST" class="d-inline">
                                 @csrf
                                 <input type="submit" value="Corbeille" class="btn btn-sm btn-danger" onclick="return confirm('Déplacer cet article dans la corbeille ?')"/>

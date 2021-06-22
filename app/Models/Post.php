@@ -15,6 +15,15 @@ class Post extends Model
     protected $guarded = [];
         // on dit au modèle de laisser passer les données
 
+    protected $dates = 
+    [
+        "created_at", 
+        "updated_at",
+        "deleted_at",
+        "published_at"
+    ];
+        // on indique que ces champs doivent recevoir le format de date souhaité
+
     /**
      * Return the sluggable configuration array for this model.
      *

@@ -175,7 +175,19 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        // 
+        $post = Post::find($id);
+        $categories = Category::all();
+            // pour importer les catégories
+
+        if (!$post)
+        {
+            return redirect()->route('admin.posts.index')->with([
+                "warning" => "Cet article n'existe pas."
+            ]);
+        }
+
+        return view('admin.posts.edit', compact('post', 'categories'));
+            // on n'oublie surtout pas de compacter !!
     }
 
     /**
@@ -187,7 +199,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // 
+        //
     }
 
     /**
