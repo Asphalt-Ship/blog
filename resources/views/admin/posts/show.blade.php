@@ -7,7 +7,7 @@
 @section('mycontent')
 
     <div class="container">
-        {{ $post->content }}
+        {!! $post->content !!}
     </div>
 
 @endsection

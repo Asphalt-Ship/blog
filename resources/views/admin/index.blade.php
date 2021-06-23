@@ -10,7 +10,7 @@
         Bienvenu sur la page d'administration !
     </h3>
 
-    <div class="row">
+    <div class="container row">
         <div class="col-4">
           <div class="list-group" id="list-tab" role="tablist">
             <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Accueil</a>
@@ -26,7 +26,7 @@
                 Voici le portail d'accueil. Utilisez la barre de navigation sur le côté pour vous rendre dans les différentes sections. Rappelez-vous que seul un admin peut et doit accéder à cette partie du website ! Ne partagez jamais votre nom d'utilisateur ou mot de passe !
             </div>
             <div class="tab-pane fade" id="list-categories" role="tabpanel" aria-labelledby="list-categories-list">
-                Chaque article possède une et une seule catégorie. Cela permet de recenser l'article et aiguiller les utilisateurs afin de rendre disponible un contenu adapté aux besoins et envies de chacun. Veuillez attribuer soigneusement une catégorie à tous vous articles
+                Chaque article possède une et une seule catégorie. Cela permet de recenser l'article et aiguiller les utilisateurs afin de rendre disponible un contenu adapté aux besoins et envies de chacun. Veuillez attribuer soigneusement une catégorie à tous vous articles.
             </div>
             <div class="tab-pane fade" id="list-posts" role="tabpanel" aria-labelledby="list-posts-list">
                 Les articles sont le corps principal du blog. Rappelez-vous que tous les utilisateurs pourront voir les articles publiés. La suppression d'un article depuis la section 'Article' de la barre de navigation envoie l'article ciblé dans la section 'Corbeille' tout en prenant soin de le dé-publier au préalable.

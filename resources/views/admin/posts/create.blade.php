@@ -1,5 +1,12 @@
 @extends('admin.template')
 
+@section('summernote')
+    {{-- summernote va permettre d'écrire des articles beaucoup plus facilement et efficacement --}}
+    {{-- une partie script doit se situer juste après le textarea --}}
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+@endsection
+
 @section('h1', "Nouvel article")
 
 @section('mycontent')
@@ -36,6 +43,14 @@
             <div class="form-group">
                 <label for="content">Contenu</label>
                 <textarea name="content" id="content" cols="30" rows="10" class="form-control">{{ old('content') }}</textarea>
+                {{-- insertion du script nécessaire à summernote. Il faut lui lier l'ID --}}
+                <script>
+                    $('#content').summernote({
+                      placeholder: 'Entrez votre article ici',
+                      tabsize: 2,
+                      height: 100
+                    });
+                  </script>
                 <div class="text-danger">{{ $errors->first("content", ":message") }}</div>
             </div>
             <div class="form-group text-center">
