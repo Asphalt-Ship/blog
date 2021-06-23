@@ -36,7 +36,7 @@
                 </select>
                 <div class="text-danger">{{ $errors->first("category_id", ":message") }}</div>
             </div>
-            <div class="d-flex justify-content-around align-items-center my-3">
+            <div class="d-sm-flex justify-content-around align-items-center my-3">
                 <div>
                     <p>Image actuelle</p>
                     <img src="{{ asset($post->image) }}" width="120" height="120">

@@ -21,6 +21,9 @@
     <!-- on importe un outil extérieur : summernote -->
     @yield('summernote')
 
+    <!-- on importe un outil extérieur : datatables -->
+    @yield('datatables')
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         {{-- la fonction asset() pointe dans public/ on s'en sert pour link le css ou le js --}}

@@ -24,11 +24,14 @@ class CategoryController extends Controller
     public function index()
     {
 
-        $categories = Category::paginate(10);
+        // $categories = Category::paginate(10);
             // avec Category::paginate(10) on récupère les résultats dans des pages de 10 items
                 // y a pas les boutons, par contre.. go index !
-            // avec Category::all() on récupère toutes les catégories dans une variable...
-
+                // (on n'a plus besoin de cette fonctionnalité, avec datatables)
+        
+        $categories = Category::all();
+            // avec Category::all() on récupère toutes les catégories dans une variable
+        
         return view('admin.categories.index', compact('categories'));
             // ... puis on rajoute cette variable à la view
     }

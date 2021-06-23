@@ -1,5 +1,18 @@
 @extends('admin.template')
 
+@section('datatables')
+    {{-- datatables va nous permettre de créer des tables plus pratiques --}}
+    {{-- on a téléchargé la version pour BS-4 --}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+    <script>
+        $(document).ready( function () {
+            $('#table').DataTable();
+                // il faut assigner cet ID au tableau
+        });
+    </script>
+@endsection
+
 @section('h1', "Index des catégories")
 
 @section('mycontent')
@@ -29,7 +42,7 @@
     {{-- table pour lister les catégories --}}
     {{-- pour permettre ça, on a fait un get() dans la fonction index() du controller --}}
     <div class="table-responsive">
-        <table class="text-center table table-striped table-hover">
+        <table id="table" class="text-center table table-striped table-hover">
             <thead class="bg-gradient text-white">
                 <th>Nom</th>
                 <th>Date de création</th>
@@ -57,10 +70,11 @@
     </div>
 
     {{-- boutons de défilement --}}
-    <div class="d-flex justify-content-end align items-center">
-        {{ $categories->links() }}
+    {{-- <div class="d-flex justify-content-end align items-center">
+        {{ $categories->links() }} --}}
         {{-- on affiche les boutons de pagination pour les catégories --}}
         {{-- les boutons sont mal dimensionnés, on va dans app/Providers/AppServiceProvider.php --}}
+        {{-- (on n'a plus besoin de cette fonctionnalité, avec datatables) --}}
     </div>
     
 @endsection
