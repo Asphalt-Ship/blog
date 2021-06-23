@@ -1,0 +1,17 @@
+                    Relation One-To-Many
+categories (0,n) ----------------------------- (1,1) posts
+
+
+                    Relation Many-To-Many
+tags (0,n) -------------[post_tag_table]------------- (1,n) posts
+                        
+
+> on appelle la table intermédiaire 'post_tag_table' par convention
+    il s'agit du nom des deux tables, par ordre alphabétique, avec les noms au singulier
+    cette table prendra les clés étrangères des deux tables
+
+> pour créer une table intermédiaire, on utilise 'make:migration' et non pas 'make:model'
+    une TI n'a pas besoin de modèle
+    on devra donc suivre la convention de nommage de Laravel :
+        php artisan make:migration create_post_tag_table
+

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Tag;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -42,10 +43,16 @@ class Post extends Model
         ];
     }
 
-    // fonction du Merise
+    // fonctions du Merise
     public function category() 
     {
         return $this->belongsTo(Category::class);
         // on indique qu'un post doit avoir une seule catégorie (1,1)
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+        // on indique qu'un post peut avoir 1 ou plusieurs tags (1,n)
     }
 }

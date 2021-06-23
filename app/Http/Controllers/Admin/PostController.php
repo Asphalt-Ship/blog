@@ -276,13 +276,19 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
+        // on dépublie l'article avant de le déplacer à la corbeille
+        $post->update([
+            "published" => false,
+            "published_at" => null
+        ]);
+
         $post->delete();
             // grâce à softDeletes(), l'article n'est pas purement supprimé
             // il est déplacé dans la 'corbeille'
             // il faut activer le softDeletes dans le modèle !
 
         return redirect()->route('admin.posts.index')->with([
-            "warning" => "L'article a été déplacé dans la corbeille."
+            "warning" => "L'article <i>$post->name</i> a été déplacé dans la corbeille."
         ]);
     }
 

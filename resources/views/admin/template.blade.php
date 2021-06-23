@@ -9,6 +9,8 @@
                 <a href="{{ route('admin.index') }}" class="list-group-item bg-ocean text-white">Accueil</a>
                 <a href="{{ route('admin.categories.index') }}" class="list-group-item bg-ocean text-white">Catégories</a>
                 <a href="{{ route('admin.posts.index') }}" class="list-group-item bg-ocean text-white">Articles</a>
+                <a href="{{ route('admin.tags.index') }}" class="list-group-item bg-ocean text-white">Tags</a>
+                <a href="{{ route('admin.trash.index') }}" class="list-group-item bg-ocean text-white">Corbeille</a>
             </div>
         </div>
         <div class="col-md-10">

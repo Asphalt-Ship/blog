@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class CategoryController extends Controller
+class TagController extends Controller
 {
     public function __construct() 
     {
         $this->middleware(['auth', 'admin']);
         // on s'assure que l'utilisateur est enregistré ET admin
     }
-        
+
     /**
      * Display a listing of the resource.
      *
@@ -23,14 +22,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $tags = Tag::all();
 
-        $categories = Category::paginate(10);
-            // avec Category::paginate(10) on récupère les résultats dans des pages de 10 items
-                // y a pas les boutons, par contre.. go index !
-            // avec Category::all() on récupère toutes les catégories dans une variable...
-
-        return view('admin.categories.index', compact('categories'));
-            // ... puis on rajoute cette variable à la view
+        return view('admin.tags.index', compact('tags'));
     }
 
     /**
@@ -40,7 +34,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create');
+        return view('admin.tags.create');
     }
 
     /**
@@ -51,16 +45,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // validation des données
+        // conditions de validation
         $validator = Validator::make($request->all(), 
         [
-            "name" => ["required", "string", "max:255", "unique:categories"],
+            "name" => ["required", "string", "max:255", "unique:tags"]
         ], 
         [
             "name.required" => "Ce champ est obligatoire.",
             "name.string" => "Veuillez entrer un nom valide.",
             "name.max" => "Veuillez entrer un nom de 255 caractères maximum.",
-            "name.unique" => "Cette catégorie existe déjà.",
+            "name.unique" => "Ce tag existe déjà."
         ]);
 
         // traitement des erreurs
@@ -70,15 +64,15 @@ class CategoryController extends Controller
         }
 
         // stockage des données
-        Category::create([
+        Tag::create([
             "name" => $request->name,
         ]);
 
             // on passe par le modèle de laisser passer les info...
 
         // redirection vers l'index des catégories
-        return redirect()->route('admin.categories.index')->with([
-            "success" => "Catégorie créée avec succès."
+        return redirect()->route('admin.tags.index')->with([
+            "success" => "Tag créé avec succès."
         ]);
     }
 
@@ -101,21 +95,17 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::where("id", $id)->first();
-            // on cherche la catégorie où la propriété 'id' correspond à $id
-            // on aurait aussi pu faire : 
-            // $category = Category::find($id)->first();
-                // mais cette méthode ne fonctionne que pour chercher un id
+        $tag = Tag::where('id', $id)->first();
 
-        if (!$category) 
+        if (!$tag)
         {
-            return redirect()->route('admin.categories.index')->with([
-                "warning" => "cette catégorie n'existe pas."
+            return redirect()->route('admin.tags.index')->with([
+                "warning" => "Ce tag n'existe pas."
             ]);
         }
-        else 
+        else
         {
-            return view('admin.categories.edit', compact('category'));
+            return view('admin.tags.edit', compact('tag'));
         }
     }
 
@@ -128,39 +118,33 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category = Category::find($id);
+        $tag = Tag::find($id);
 
         $validator = Validator::make($request->all(), 
         [
-            "name" => 
-            [
-                "required", 
-                "string", 
-                "max:255", 
-                Rule::unique('categories')->ignore($category->id)
-            ]
+            "name" => ["required", "string", "max:255", "unique:tags"]
         ], 
         [
             "name.required" => "Ce champ est obligatoire.",
             "name.string" => "Veuillez entrer un nom valide.",
             "name.max" => "Veuillez entrer un nom de 255 caractères maximum.",
-            "name.unique" => "Cette catégorie existe déjà.",
+            "name.unique" => "Ce tag existe déjà."
         ]);
 
-        if ($validator->fails()) 
+        if ($validator->fails())
         {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
         // suppression du slug actuel pour qu'un nouveau puisse être généré
-        $category->slug = null;
+        $tag->slug = null;
 
-        $category->update([
+        $tag->update([
             "name" => $request->name
         ]);
 
-        return redirect()->route('admin.categories.index')->with([
-            "success" => "La catégorie a été modifiée avec succès."
+        return redirect()->route('admin.tags.index')->with([
+            "success" => "Le tag a été modifié avec succès."
         ]);
     }
 
@@ -172,15 +156,15 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        // requête pour récupérer la catégorie
-        $category = Category::find($id);
+        // requête pour récupérer le tag
+        $tag = Tag::find($id);
 
-        // suppression de la catégorie
-        $category->delete();
+        // suppression du tag
+        $tag->delete();
 
         // redirection
-        return redirect()->route('admin.categories.index')->with([
-            "warning" => "La catégorie <i>$category->name</i> a été supprimée avec succès."
+        return redirect()->route('admin.tags.index')->with([
+            "warning" => "Le tag <i>$tag->name</i> a été supprimé avec succès."
         ]);
     }
 }
