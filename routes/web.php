@@ -26,6 +26,7 @@ Route::get('logout', function(){
 Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    // route par défaut. pour la contourner, il faut aller dans app/Http/ControllersAuth/LoginController
 
 Route::get('/user/index', [App\Http\Controllers\User\UserController::class, 'index'])->name('user.index');
     // route pour la page index qui accueille les nouveaux utilisateurs

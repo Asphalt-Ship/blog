@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         \App\Models\Category::factory(3)->create();
+            // on crée des fakers: 
+            // 10 users et 3 categories
 
         // profil 'admin' présent par défaut dans la BDD, même après un :fresh 
         $admin = User::create([
