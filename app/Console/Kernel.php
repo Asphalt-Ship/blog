@@ -35,6 +35,10 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');
+            // $this indique que la fonction est héritée de son parent
+                // il n'y a pas de fonction load() dans Kernel, 
+                // donc elle vient de ConsoleKernel
+            // __DIR__ représente le chemin
 
         require base_path('routes/console.php');
     }

@@ -29,9 +29,10 @@ Auth::routes();
     // route par défaut. pour la contourner, il faut aller dans app/Http/ControllersAuth/LoginController
 
 Route::get('/user/index', [App\Http\Controllers\User\UserController::class, 'index'])->name('user.index');
-    // route pour la page index qui accueille les nouveaux utilisateurs
+    // route pour la page index qui accueille les utilisateurs nouvellement enregistrés
 
 Route::get('/admin/index', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.index');
+    // route pour la page index qui accueille les administrateurs
 
 Route::get('/admin/categories/index', [App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('admin.categories.index');
 
@@ -83,3 +84,6 @@ Route::put('/admin/tags/update/{id}', [App\Http\Controllers\Admin\TagController:
 
 Route::delete('/admin/tags/delete/{id}', [App\Http\Controllers\Admin\TagController::class, 'destroy'])->name('admin.tags.delete');
 
+Route::get('/user/posts/index', [App\Http\Controllers\User\PostController::class, 'index'])->name('user.posts.index');
+
+Route::get('/user/posts/show{id}', [App\Http\Controllers\User\PostController::class, 'show'])->name('user.posts.show');

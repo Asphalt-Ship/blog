@@ -10,11 +10,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
+    // la classe Post est en lien avec la BDD
 {
     use HasFactory;
     use Sluggable;
     use SoftDeletes;
-        // on ajoute cette classe manuellement cette classe
+        // on ajoute cette classe manuellement
         // pour pouvoir garantir que la corbeille ne soit pas un delete
 
     protected $guarded = [];

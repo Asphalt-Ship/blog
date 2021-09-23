@@ -1,4 +1,4 @@
-@extends('admin.template')
+@extends('user.template')
 
 @section('h1')
     {{ $post->title }}
@@ -9,9 +9,9 @@
     <div class="container">
         {!! $post->content !!}
     </div>
-    
+
     <div class="d-flex justify-content-end align-items-center m-5">
-        <a href="{{ route('admin.posts.index') }}" class="btn btn-primary">Retour</a>
+        <a href="{{ route('user.posts.index') }}" class="btn btn-primary">Retour</a>
     </div>
 
 @endsection
